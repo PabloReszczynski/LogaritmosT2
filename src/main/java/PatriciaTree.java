@@ -8,7 +8,7 @@ public class PatriciaTree implements IDict {
     private enum SearchReasons {
         Found,
         NoChildrenWithNextChar,
-        PatternExhasuted,
+        PatternExhausted,
         LeafReached
     }
 
@@ -29,7 +29,7 @@ public class PatriciaTree implements IDict {
         switch (reason) {
             case NoChildrenWithNextChar:
                 break;
-            case PatternExhasuted:
+            case PatternExhausted:
                 break;
             case LeafReached:
                 break;
@@ -44,7 +44,7 @@ public class PatriciaTree implements IDict {
 
     private SearchReasons search(char[] word, int pos) {
         // Si la etiqueta es mas larga de lo que queda del String, entonces no está aquí.
-        if (word.length - pos < label.length) return SearchReasons.PatternExhasuted;
+        if (word.length - pos < label.length) return SearchReasons.PatternExhausted;
 
         // Buscamos si hay un match con la etiqueta
         for (int i = 0; i < label.length; i++) {
