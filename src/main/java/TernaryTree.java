@@ -43,12 +43,7 @@ public class TernaryTree implements IDict {
 		// Caso: P[i] = this.value
 		// Buscamos ahora P[i+1] en el nodo del centro:
 		if (this.value == str.charAt(0)){
-			if (this.center == null) {
-				this.center = new TernaryTree();
-				return this.center.insert(str.substring(1));
-			} else {
-				return this.center.insert(str.substring(1));
-			}
+			return this.center.insert(str.substring(1));
 		}
 		// Caso: P[i] < this.value
 		// Seguimos buscando P[i] en el nodo de la izquierda:
@@ -84,12 +79,12 @@ public class TernaryTree implements IDict {
 		}
 		
 		// Si estamos buscando el char P[i] (con P = palabra)
-		
+		/*
 		System.out.println("\nthis.value: " + this.value);
 		System.out.println("this.left: " + this.left);
 		System.out.println("this.right: " + this.right);
 		System.out.println("this.center: " + this.center);
-		System.out.println("str: " + str.charAt(0) + "\n");
+		System.out.println("str: " + str.charAt(0) + "\n"); */
 		// Caso 1: P[i] = this.value
 		// Buscamos ahora P[i+1] en el nodo del centro:
 		if (this.value == str.charAt(0)){
