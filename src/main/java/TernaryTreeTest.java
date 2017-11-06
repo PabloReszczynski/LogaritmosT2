@@ -89,6 +89,7 @@ class TernaryTreeTest {
 		assertEquals(0, ternaryTree1.search("tortugA"));
 		
 		// Test : espacio, caracteres raros:
+		
 		assertEquals(0, ternaryTree1.search("tortuga "));
 		assertEquals(0, ternaryTree1.search(" tortuga "));
 		assertEquals(0, ternaryTree1.search("tortuga\n"));

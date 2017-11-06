@@ -74,17 +74,16 @@ public class TernaryTree implements IDict {
 	public int search(String str) {
 		
 		// Caso base: ya no me quedan mas chars que buscar
-		if (str.length() == 0) {
+		if (str.length() == 0 ) {
 			return 1;
 		}
 		
+		if (this.value == null) {
+			return 0;
+		}
+		
 		// Si estamos buscando el char P[i] (con P = palabra)
-		/*
-		System.out.println("\nthis.value: " + this.value);
-		System.out.println("this.left: " + this.left);
-		System.out.println("this.right: " + this.right);
-		System.out.println("this.center: " + this.center);
-		System.out.println("str: " + str.charAt(0) + "\n"); */
+	
 		// Caso 1: P[i] = this.value
 		// Buscamos ahora P[i+1] en el nodo del centro:
 		if (this.value == str.charAt(0)){
