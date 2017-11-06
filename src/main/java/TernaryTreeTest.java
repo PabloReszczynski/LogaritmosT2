@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 class TernaryTreeTest {
 
 	IDict ternaryTree1;
+	IDict hashMap1;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		ternaryTree1 = new TernaryTree();	
@@ -56,7 +58,26 @@ class TernaryTreeTest {
 		assertEquals(1, ternaryTree1.search("catapulta"));
 		assertEquals(1, ternaryTree1.search("caternaria"));
 		
+		assertEquals(0, ternaryTree1.search("fundibolo"));
+		
 		ternaryTree1.insert("fundibolo");
 		assertEquals(1, ternaryTree1.search("fundibolo"));
+		
+		ternaryTree1.insert("tamarindo");
+		assertEquals(1, ternaryTree1.search("tamarindo"));
+		
+		ternaryTree1.insert("tortuga");
+		
+		// Test: Mayusculas - Minusculas
+		assertEquals(1, ternaryTree1.search("tortuga"));
+		assertEquals(0, ternaryTree1.search("TORTUGA"));
+		assertEquals(0, ternaryTree1.search("Tortuga"));
+		assertEquals(0, ternaryTree1.search("tortugA"));
+		
+		// Test : espacio, caracteres raros:
+		assertEquals(0, ternaryTree1.search("tortuga "));
+		assertEquals(0, ternaryTree1.search(" tortuga "));
+		assertEquals(0, ternaryTree1.search("tortuga\n"));
+		assertEquals(0, ternaryTree1.search("tórtuga"));
 	}
 }

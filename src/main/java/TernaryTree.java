@@ -13,29 +13,34 @@ public class TernaryTree implements IDict {
 		this.center = null;
 	}
 	
-	public TernaryTree(char chr) {
-		this.value = chr;
-		this.left = null;
-		this.right = null;
-		this.center = null;
-	}
-	
+
 	@Override
 	public int insert(String str) {
 		// Caso base: ya no me quedan mas chars que buscar
 		if (str.length() == 0) {
+			//System.out.println("------------ Fin Insercion ------------- \n");
 			return 1;
 		}
 		
+		// Caso: this.value == null
+		// Inserto el primer char de str en this.value:
 		if (this.value == null) {
 			this.value = str.charAt(0);
-			this.center = new TernaryTree();
-			return this.center.insert(str.substring(1));
+			
+			// Caso base: ya no me quedan mas chars que buscar
+			if (str.length() >= 1) {
+				this.center = new TernaryTree();
+				return this.center.insert(str.substring(1));
+			} else {
+				return 1;
+			}
+			
+
 		}
 
 		// Si estamos buscando el char P[i] (con P = palabra)
 
-		// Caso 1: P[i] = this.value
+		// Caso: P[i] = this.value
 		// Buscamos ahora P[i+1] en el nodo del centro:
 		if (this.value == str.charAt(0)){
 			if (this.center == null) {
@@ -45,22 +50,22 @@ public class TernaryTree implements IDict {
 				return this.center.insert(str.substring(1));
 			}
 		}
-		// Caso 2: P[i] < this.value
+		// Caso: P[i] < this.value
 		// Seguimos buscando P[i] en el nodo de la izquierda:
 		if (this.value < str.charAt(0)) {
 			if (this.left == null) {
 				this.left = new TernaryTree();
-				return this.left.insert(str.substring(1));
+				return this.left.insert(str);
 			} else {
 				return this.left.insert(str);
 			}
 		}
-		// Caso 3: P[i] > this.value
+		// Caso: P[i] > this.value
 		// Seguimos buscando P[i] en el nodo de la derecha:
 		if (this.value > str.charAt(0)) {
 			if (this.right == null) {
 				this.right = new TernaryTree();
-				return this.right.insert(str.substring(1));
+				return this.right.insert(str);
 			}
 			else {
 				return this.right.insert(str);
@@ -69,55 +74,6 @@ public class TernaryTree implements IDict {
 		return 0;
 	}
 
-
-	
-	/*
-	 * Hace una busqueda infructuosa en el arbol.
-	 * Si retorna null, entonces si se encontro el str y por lo tanto 
-	 * no hay que agregar nada.
-	 */
-	public TernaryTree unsuccessfulSearch(String str) {
-		// Caso base: ya no me quedan mas chars que buscar
-		if (str.length() == 0) {
-			return null;
-		}
-
-		// Si estamos buscando el char P[i] (con P = palabra)
-
-		// Caso 1: P[i] = this.value
-		// Buscamos ahora P[i+1] en el nodo del centro:
-		if (this.value == str.charAt(0)){
-			if (this.center == null) {
-				this.center = new TernaryTree();
-				return this.center;
-			} else {
-				return this.center.unsuccessfulSearch(str.substring(1));
-			}
-		}
-		// Caso 2: P[i] < this.value
-		// Seguimos buscando P[i] en el nodo de la izquierda:
-		if (this.value < str.charAt(0)) {
-			if (this.left == null) {
-				this.left = new TernaryTree();
-				return this.left;
-			} else {
-				return this.left.unsuccessfulSearch(str);
-			}
-		}
-		// Caso 3: P[i] > this.value
-		// Seguimos buscando P[i] en el nodo de la derecha:
-		if (this.value > str.charAt(0)) {
-			if (this.right == null) {
-				this.right = new TernaryTree();
-				return this;
-			}
-			else {
-				return this.right.unsuccessfulSearch(str);
-			}
-		}
-		return null;
-	}
-		
 
 	@Override
 	public int search(String str) {
@@ -129,6 +85,11 @@ public class TernaryTree implements IDict {
 		
 		// Si estamos buscando el char P[i] (con P = palabra)
 		
+		System.out.println("\nthis.value: " + this.value);
+		System.out.println("this.left: " + this.left);
+		System.out.println("this.right: " + this.right);
+		System.out.println("this.center: " + this.center);
+		System.out.println("str: " + str.charAt(0) + "\n");
 		// Caso 1: P[i] = this.value
 		// Buscamos ahora P[i+1] en el nodo del centro:
 		if (this.value == str.charAt(0)){
@@ -159,67 +120,4 @@ public class TernaryTree implements IDict {
 		}
 		return 0;
 	}
-	
-	@Override
-	public String toString() {
-		return "Contenido del Nodo: '" + this.value.toString() + "'";
-	}
-
-	public char getValue() {
-		return value;
-	}
-
-
-
-
-	public void setValue(char value) {
-		this.value = value;
-	}
-
-
-
-
-	public TernaryTree getLeft() {
-		return left;
-	}
-
-
-
-
-	public void setLeft(TernaryTree left) {
-		this.left = left;
-	}
-
-
-
-
-	public TernaryTree getRight() {
-		return right;
-	}
-
-
-
-
-	public void setRight(TernaryTree right) {
-		this.right = right;
-	}
-
-
-
-
-	public TernaryTree getCenter() {
-		return center;
-	}
-
-
-
-
-	public void setCenter(TernaryTree center) {
-		this.center = center;
-	}
-
-
-
-
-
 }
