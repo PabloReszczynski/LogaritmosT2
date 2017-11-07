@@ -28,8 +28,13 @@ public class HashMap implements IDict {
         if (size >= max_size) {
             extendTable();
         }
+        int key;
+        if ((key = search(str)) != -1) {
+            table[key].frequency++;
+            return key;
+        }
         long hash = hashFun(str);
-        int key = (int) (hash & (max_size - 1)); // El operador binario AND es como módulo pero más bacán.
+        key = (int) (hash & (max_size - 1)); // El operador binario AND es como módulo pero más bacán.
         Entry mapped = table[key];
 
         while (mapped != null) {
@@ -53,7 +58,14 @@ public class HashMap implements IDict {
             if (mapped != null && mapped.value.equals(str)) return key;
             key = ++key % max_size;
         }
-        return key;
+        return -1;
+    }
+
+    @Override
+    public int frequency(String word) {
+        int key = search(word);
+        if (key == -1) return 0;
+        return table[key].frequency;
     }
 }
 
@@ -61,10 +73,12 @@ class Entry {
     public long hash;
     public int key;
     public String value;
+    public int frequency;
 
     public Entry(long hash, int key, String value) {
         this.hash = hash;
         this.key = key;
         this.value = value;
+        frequency = 1;
     }
 }

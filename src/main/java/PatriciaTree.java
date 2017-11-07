@@ -42,6 +42,11 @@ public class PatriciaTree implements IDict {
         return (search(str.toCharArray(), 0) == SearchReasons.Found) ? 1 : 0;
     }
 
+    @Override
+    public int frequency(String word) {
+        return 0;
+    }
+
     private SearchReasons search(char[] word, int pos) {
         // Si la etiqueta es mas larga de lo que queda del String, entonces no está aquí.
         if (word.length - pos < label.length) return SearchReasons.PatternExhausted;

@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class TextReader {
     public static String[] open() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("alice.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader("sherlock.txt"));
         ArrayList<String> words = new ArrayList<String>();
         String line;
         while ((line = reader.readLine()) != null) {
