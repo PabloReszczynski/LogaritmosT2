@@ -14,11 +14,13 @@ class TernaryTreeTest {
 	IDict hashMap1;
 	
 	
+	
 	String dir = "";
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		ternaryTree1 = new TernaryTree();	
+		hashMap1 = new HashMap();
 	}
 	
 
@@ -56,6 +58,7 @@ class TernaryTreeTest {
 		assertEquals(1, ternaryTree1.search("alabastra"));
 		assertEquals(1, ternaryTree1.search("castro"));
 		
+		assertEquals(0 ,ternaryTree1.search("cata"));
 		assertEquals(0, ternaryTree1.search("cataplasma"));
 		assertEquals(0, ternaryTree1.search("catapulta"));
 		assertEquals(0, ternaryTree1.search("caternaria"));
@@ -64,9 +67,11 @@ class TernaryTreeTest {
 		ternaryTree1.insert("catapulta");
 		ternaryTree1.insert("caternaria");
 		
+		
 		assertEquals(1, ternaryTree1.search("cataplasma"));
 		assertEquals(1, ternaryTree1.search("catapulta"));
 		assertEquals(1, ternaryTree1.search("caternaria"));
+		assertEquals(0, ternaryTree1.search("cata"));
 		
 		assertEquals(0, ternaryTree1.search("fundibolo"));
 		
@@ -94,6 +99,28 @@ class TernaryTreeTest {
 		assertEquals(0, ternaryTree1.search(" tortuga "));
 		assertEquals(0, ternaryTree1.search("tortuga\n"));
 		assertEquals(0, ternaryTree1.search("tórtuga"));
+		
+		// Test : Cantidad de apariciones
+		
+		assertEquals(1, ternaryTree1.frequency("a"));
+		assertEquals(1, ternaryTree1.frequency("ala"));
+		assertEquals(1, ternaryTree1.frequency("alabardo"));
+		
+		assertEquals(0, ternaryTree1.frequency("cata"));
+		assertEquals(1, ternaryTree1.frequency("cataplasma"));
+		assertEquals(1, ternaryTree1.frequency("catapulta"));
+		assertEquals(1, ternaryTree1.frequency("caternaria"));
+		
+		assertEquals(0, ternaryTree1.frequency("abc"));
+
+		
+		assertEquals(2, ternaryTree1.frequency("fundibolo"));
+		
+		for (int i = 0; i < 10000 ; i ++) {
+			ternaryTree1.insert("superfluo");
+		}
+		
+		assertEquals(10000, ternaryTree1.frequency("superfluo"));
 	}
 	
 	
@@ -134,5 +161,6 @@ class TernaryTreeTest {
 		    br.close();
 		}
 	}	
+	
 	
 }
