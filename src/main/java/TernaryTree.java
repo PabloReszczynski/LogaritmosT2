@@ -1,5 +1,5 @@
 
-public class TernaryTree implements IDict {
+public class TernaryTree implements IDict, java.io.Serializable {
 	
 	private Character value;
 	private TernaryTree left;
@@ -183,5 +183,21 @@ public class TernaryTree implements IDict {
 			}
 		}
 		return 0;
+	}
+	
+	
+	public int getTreeSize(int size) {
+		if (this.left != null){
+			size = this.left.getTreeSize(size);
+		}
+		
+		if (this.center != null) {
+			size = this.center.getTreeSize(size);
+		}
+		
+		if (this.right != null) {
+			size = this.right.getTreeSize(size);
+		}
+		return size + 1;
 	}
 }

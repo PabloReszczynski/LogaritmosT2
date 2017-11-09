@@ -133,14 +133,18 @@ class DictionaryTest {
 		// Test: Insertar varias palabras
 		ternaryTree.insert("ala");
 		
+		
+		
 		assertEquals(1, ternaryTree.search("a"));
 		assertEquals(1, ternaryTree.search("ala"));
+		assertEquals(3, ((TernaryTree) ternaryTree).getTreeSize(0));
 
 		ternaryTree.insert("alabardo");
 
 		assertEquals(1, ternaryTree.search("a"));
 		assertEquals(1, ternaryTree.search("ala"));
 		assertEquals(1, ternaryTree.search("alabardo"));
+		assertEquals(8, ((TernaryTree) ternaryTree).getTreeSize(0));
 		
 		ternaryTree.insert("alabastra");
 		
@@ -148,6 +152,8 @@ class DictionaryTest {
 		assertEquals(1, ternaryTree.search("ala"));
 		assertEquals(1, ternaryTree.search("alabardo"));
 		assertEquals(1, ternaryTree.search("alabastra"));
+		assertEquals(12, ((TernaryTree) ternaryTree).getTreeSize(0));
+		
 		
 		ternaryTree.insert("castro");
 		
@@ -289,6 +295,7 @@ class DictionaryTest {
 		
 		assertNotEquals(-1, hashMap.search("a"));
 		assertNotEquals(-1, hashMap.search("ala"));
+		
 
 		hashMap.insert("alabardo");
 

@@ -1,30 +1,38 @@
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Experiments {
-	
+    
+
 	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
 		
-		executeExperiments(PatriciaTree.class);
+		//executeExperiments(PatriciaTree.class);
 		executeExperiments(TernaryTree.class);
 		executeExperiments(HashMap.class);
 
 	}
 	
+	/*
+	 * executeExperiments
+	 * Ejecuta los experimentos pedidos en el enunciado de la tarea. Toma como parametro la clase del diccionario.
+	 * 
+	 */
 	public static void executeExperiments(Class<? extends IDict> clss) 
 			throws InstantiationException, IllegalAccessException, IOException {
-		// TernaryTree Similarity:
 		
+		// Lectura de los archivos de texto. Por defecto, DarkTower y TheExpanse.
 		String [] text1 = readTextFile("DarkTower.txt");
 		String [] text2 = readTextFile("TheExpanse.txt");
 		
 		double time;
 		IDict dict;
 		
-		
+		// Experimento: Tiempo de construccion para Dark Tower.
 		ArrayList<Double> fillTimes = new ArrayList<Double>();
 		for (int i = 10; i < 21; i++) {
 			
@@ -42,11 +50,52 @@ public class Experiments {
 			
 			time = (System.currentTimeMillis() - time) / 1000;
 			
-			System.out.println("Tiempo de insercion de "+ clss.getName() + " usando DarkTower para " + (int) Math.pow(2,i) + " palabras : " + time);
 			
+			// Experimento : Tamano del objeto creado para Dark Tower
+			if (clss.getName() == "TernaryTree") {
+				saveObject("TernaryTree_" + Double.toString(Math.pow(2, i)), dict);
+			}
+			
+			
+			System.out.println("Tiempo de insercion de "+ clss.getName() +
+					" usando DarkTower para " + (int) Math.pow(2,i) + " palabras : " + time);
 			fillTimes.add(time);
 		}
 		
+		
+		// Experimento: Tiempo de construccion para The Expanse.
+		for (int i = 10; i < 21; i++) {
+			
+			//Creamos /Vaciamos diccionarios
+			dict = clss.newInstance();
+			// WarmUp
+			dict.insert("xyzw");
+			
+			time = System.currentTimeMillis();
+			
+			for (int j = 0; j <= Math.pow(2, i) - 1 && j < text2.length; j++) {
+				String word = text2[j];
+				dict.insert(word);
+			}
+			
+			time = (System.currentTimeMillis() - time) / 1000;
+			
+			
+			// Experimento : Tamano del objeto creado para Dark Tower
+			if (clss.getName() == "TernaryTree") {
+				saveObject("TernaryTree_" + Double.toString(Math.pow(2, i)), dict);
+			}
+			
+			
+			System.out.println("Tiempo de insercion de "+ clss.getName() + 
+					" usando The Expanse para " + (int) Math.pow(2,i) + " palabras : " + time);
+			fillTimes.add(time);
+		}
+		
+		
+		
+		// Experimento: Tiempo de calculo de la similaridad.
+		// Solo se mide la busqueda de las palabras y el calculo del indice, no la insercion.
 		ArrayList<Double> similarityTimes = new ArrayList<Double>();
 		for (int i = 10; i < 21; i ++) {
 			
@@ -59,9 +108,12 @@ public class Experiments {
 			
 			similarityTimes.add(time);
 		}
-	}	
+	}
 	
-	
+	/*
+	 * readTextFile
+	 * Lee el archivo dado en filename, extrae sus palabras y lo retorna como arreglo de strings.
+	 */
 	public static String[] readTextFile (String filename) throws IOException {
 
 		BufferedReader br = new BufferedReader(new FileReader(filename));
@@ -85,6 +137,18 @@ public class Experiments {
 		return everything.split("\\s+");
 	}
 	
+	public static void saveObject(String filename, Object o) throws IOException {
+		FileOutputStream fos = new FileOutputStream("results/" + filename + ".ser");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(o);
+        oos.close();
+	}
+	
+	/*
+	 * testSimilarityTime
+	 * Retorna el tiempo que se demora en calcular la similaridad entre dos textos,
+	 * usando el diccionario especificado en el parametro.
+	 */
 	public static double testSimilarityTime(
 			String[] text1, 
 			String[] text2, 
