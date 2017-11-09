@@ -8,11 +8,10 @@ public class Experiments {
 	
 	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
 		
-		
+		executeExperiments(PatriciaTree.class);
 		executeExperiments(TernaryTree.class);
 		executeExperiments(HashMap.class);
-		
-		
+
 	}
 	
 	public static void executeExperiments(Class<? extends IDict> clss) 
@@ -108,7 +107,7 @@ public class Experiments {
 
 		// Agregamos palabras del texto 1 al diccionario 1
 		for (String word : text1) {
-			if (text1Dict.search(word) == 0 && text2Dict.search(word) == 0) {
+			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
 				concatenatedTextUniqueWords.add(word);
 			}
 			text1Dict.insert(word);
@@ -116,7 +115,7 @@ public class Experiments {
 
 		// Agregamos palabras del texto 2 al diccionario 2
 		for (String word : text2) {
-			if (text1Dict.search(word) == 0 && text2Dict.search(word) == 0) {
+			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
 				concatenatedTextUniqueWords.add(word);
 			}
 			text2Dict.insert(word);

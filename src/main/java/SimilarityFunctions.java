@@ -60,14 +60,14 @@ public class SimilarityFunctions {
 
 
 		for (String word : text1) {
-			if (text1Dict.search(word) == 0 && text2Dict.search(word) == 0) {
+			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
 				concatenatedTextUniqueWords.add(word);
 			}
 			text1Dict.insert(word);
 		}
 
 		for (String word : text2) {
-			if (text1Dict.search(word) == 0 && text2Dict.search(word) == 0) {
+			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
 				concatenatedTextUniqueWords.add(word);
 			}
 			text2Dict.insert(word);
