@@ -282,76 +282,76 @@ class DictionaryTest {
 		hashMap.insert("a");
 		
 
-		assertEquals(1, hashMap.search("a"));
+		assertNotEquals(-1, hashMap.search("a"));
 		
 		// Test: Insertar varias palabras
 		hashMap.insert("ala");
 		
-		assertEquals(1, hashMap.search("a"));
-		assertEquals(1, hashMap.search("ala"));
+		assertNotEquals(-1, hashMap.search("a"));
+		assertNotEquals(-1, hashMap.search("ala"));
 
 		hashMap.insert("alabardo");
 
-		assertEquals(1, hashMap.search("a"));
-		assertEquals(1, hashMap.search("ala"));
-		assertEquals(1, hashMap.search("alabardo"));
+		assertNotEquals(-1, hashMap.search("a"));
+		assertNotEquals(-1, hashMap.search("ala"));
+		assertNotEquals(-1, hashMap.search("alabardo"));
 		
 		hashMap.insert("alabastra");
 		
-		assertEquals(1, hashMap.search("a"));
-		assertEquals(1, hashMap.search("ala"));
-		assertEquals(1, hashMap.search("alabardo"));
-		assertEquals(1, hashMap.search("alabastra"));
+		assertNotEquals(-1, hashMap.search("a"));
+		assertNotEquals(-1, hashMap.search("ala"));
+		assertNotEquals(-1, hashMap.search("alabardo"));
+		assertNotEquals(-1, hashMap.search("alabastra"));
 		
 		hashMap.insert("castro");
 		
-		assertEquals(1, hashMap.search("a"));
-		assertEquals(1, hashMap.search("ala"));
-		assertEquals(1, hashMap.search("alabardo"));
-		assertEquals(1, hashMap.search("alabastra"));
-		assertEquals(1, hashMap.search("castro"));
+		assertNotEquals(-1, hashMap.search("a"));
+		assertNotEquals(-1, hashMap.search("ala"));
+		assertNotEquals(-1, hashMap.search("alabardo"));
+		assertNotEquals(-1, hashMap.search("alabastra"));
+		assertNotEquals(-1, hashMap.search("castro"));
 		
-		assertEquals(0 ,hashMap.search("cata"));
-		assertEquals(0, hashMap.search("cataplasma"));
-		assertEquals(0, hashMap.search("catapulta"));
-		assertEquals(0, hashMap.search("caternaria"));
+		assertEquals(-1 ,hashMap.search("cata"));
+		assertEquals(-1, hashMap.search("cataplasma"));
+		assertEquals(-1, hashMap.search("catapulta"));
+		assertEquals(-1, hashMap.search("caternaria"));
 
 		hashMap.insert("cataplasma");
 		hashMap.insert("catapulta");
 		hashMap.insert("caternaria");
 		
 		
-		assertEquals(1, hashMap.search("cataplasma"));
-		assertEquals(1, hashMap.search("catapulta"));
-		assertEquals(1, hashMap.search("caternaria"));
-		assertEquals(0, hashMap.search("cata"));
+		assertNotEquals(-1, hashMap.search("cataplasma"));
+		assertNotEquals(-1, hashMap.search("catapulta"));
+		assertNotEquals(-1, hashMap.search("caternaria"));
+		assertEquals(-1, hashMap.search("cata"));
 		
-		assertEquals(0, hashMap.search("fundibolo"));
+		assertEquals(-1, hashMap.search("fundibolo"));
 		
 		hashMap.insert("fundibolo");
-		assertEquals(1, hashMap.search("fundibolo"));
+		assertNotEquals(-1, hashMap.search("fundibolo"));
 		
 		// Test: Insertar el mismo elemento 2 veces
 		hashMap.insert("fundibolo");
-		assertEquals(1, hashMap.search("fundibolo"));
+		assertNotEquals(-1, hashMap.search("fundibolo"));
 		
 		hashMap.insert("tamarindo");
-		assertEquals(1, hashMap.search("tamarindo"));
+		assertNotEquals(-1, hashMap.search("tamarindo"));
 		
 		// Test: Mayusculas - Minusculas
 		hashMap.insert("tortuga");
 		
-		assertEquals(1, hashMap.search("tortuga"));
-		assertEquals(0, hashMap.search("TORTUGA"));
-		assertEquals(0, hashMap.search("Tortuga"));
-		assertEquals(0, hashMap.search("tortugA"));
+		assertNotEquals(-1, hashMap.search("tortuga"));
+		assertEquals(-1, hashMap.search("TORTUGA"));
+		assertEquals(-1, hashMap.search("Tortuga"));
+		assertEquals(-1, hashMap.search("tortugA"));
 		
 		// Test : espacio, caracteres raros:
 		
-		assertEquals(0, hashMap.search("tortuga "));
-		assertEquals(0, hashMap.search(" tortuga "));
-		assertEquals(0, hashMap.search("tortuga\n"));
-		assertEquals(0, hashMap.search("tórtuga"));
+		assertEquals(-1, hashMap.search("tortuga "));
+		assertEquals(-1, hashMap.search(" tortuga "));
+		assertEquals(-1, hashMap.search("tortuga\n"));
+		assertEquals(-1, hashMap.search("tórtuga"));
 		
 		// Test : Cantidad de apariciones
 		
