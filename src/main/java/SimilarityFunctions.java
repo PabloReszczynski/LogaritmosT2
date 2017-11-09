@@ -33,8 +33,11 @@ public class SimilarityFunctions {
 		}
 		String everything = sb.toString();
 
-		// Reemplazamos los saltos de linea, tabs, etc.. por espacios:
-		everything = everything.replaceAll("[\\t\\n\\r]+"," ");
+		// Reemplazamos los saltos de linea, comas, numeros, tabs, etc.. por espacios:
+		everything = everything.replaceAll("[\\t\\n\\r]+"," ").toLowerCase();
+		everything = everything.replaceAll("^[0-9,;]+$"," ");
+		
+		
 		br.close();	    
 		// Retornamos un arreglo de las palabras
 		return everything.split("\\s+");
