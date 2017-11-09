@@ -89,6 +89,10 @@ public class TernaryTree implements IDict {
 
 	@Override
 	public int search(String str) {
+		
+		if (this.value == null || str.length() == 0) {
+			return 0;
+		}
 
 		
 		// Si estamos buscando el char P[i] (con P = palabra)
@@ -135,6 +139,10 @@ public class TernaryTree implements IDict {
 
 	@Override
 	public int frequency(String str) {
+		
+		if (this.value == null || str.length() == 0) {
+			return 0;
+		}
 
 		// Si estamos buscando el char P[i] (con P = palabra)
 	

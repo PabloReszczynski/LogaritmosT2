@@ -161,7 +161,18 @@ class TernaryTreeTest {
 		} finally {
 		    br.close();
 		}
-	}	
+	}
+	
+	
+	@Test
+	public void testSimilarity() throws Exception {
+		
+		// Test con diccionario TernaryTree
+		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice", "alice", TernaryTree.class));
+		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock", "sherlock", TernaryTree.class));
+		assertEquals(0.028265357, SimilarityFunctions.calculateSimilarity("alice", "sherlock", TernaryTree.class));
+		assertEquals(0.028265357, SimilarityFunctions.calculateSimilarity("sherlock", "alice", TernaryTree.class));
+	}
 	
 	
 }
