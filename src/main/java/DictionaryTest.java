@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -279,8 +278,7 @@ class DictionaryTest {
 		assertEquals(10000, hashMap1.frequency("superfluo"));
 	}
 	
-	/*
-	@Ignore @Test
+	@Test
 	public void testHashSimilarity() throws Exception {
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice.txt", "alice.txt", HashMap.class));
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock.txt", "sherlock.txt", HashMap.class));
@@ -288,5 +286,4 @@ class DictionaryTest {
 		assertEquals(0.02826535701751709, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", HashMap.class));
 	}	
 	
-	*/
 }

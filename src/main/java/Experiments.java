@@ -36,11 +36,12 @@ public class Experiments {
 			
 			time = System.currentTimeMillis();
 			
-			for (String word : text1) {
+			for (int j = 0; j <= Math.pow(2, i) - 1 && j < text1.length; j++) {
+				String word = text1[j];
 				dict.insert(word);
 			}
 			
-			time = System.currentTimeMillis() - time;
+			time = (System.currentTimeMillis() - time) / 1000;
 			
 			System.out.println("Tiempo de insercion de "+ clss.getName() + " usando DarkTower para " + (int) Math.pow(2,i) + " palabras : " + time);
 			
@@ -50,10 +51,10 @@ public class Experiments {
 		ArrayList<Double> similarityTimes = new ArrayList<Double>();
 		for (int i = 10; i < 21; i ++) {
 			
-			time = testSimilarityTime (
+			time = (testSimilarityTime (
 					Arrays.copyOfRange(text1, 0, (int) Math.pow(2, i)),
 					Arrays.copyOfRange(text2, 0, (int) Math.pow(2, i)),
-					clss);
+					clss)) / 1000;
 			
 			System.out.println("Tiempo de calculo de similaridad en " + clss.getName() + " para " + (int) Math.pow(2,i) + " palabras: " + time);
 			
