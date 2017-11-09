@@ -79,8 +79,6 @@ public class SimilarityFunctions {
 			numerator += Math.abs( text1Dict.frequency(word) - text2Dict.frequency(word)); 
 			//System.out.println("word: " + word + " frequency: " + numerator);
 		}
-		System.out.println("Numerator: " + numerator);
-		System.out.println("Number of words: " + numberOfWords);
 		return 1 - numerator/(float)numberOfWords;
 	}
 }

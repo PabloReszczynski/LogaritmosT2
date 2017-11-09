@@ -184,21 +184,4 @@ public class TernaryTree implements IDict {
 		}
 		return 0;
 	}
-	
-	public void printTree() {
-		System.out.println("this.value: " + this.value  + " this.count: " + this.wordCount);
-		if (this.left != null) {
-			System.out.println("this.left");
-			this.left.printTree();
-		}
-		if (this.center != null) {
-			System.out.println("this.center");
-			this.center.printTree();
-		}
-		if (this.right != null) {
-			System.out.println("this.right");
-			this.right.printTree();
-		}
-		
-	}
 }

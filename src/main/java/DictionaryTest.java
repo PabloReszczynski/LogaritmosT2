@@ -1,7 +1,6 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -10,118 +9,217 @@ import org.junit.jupiter.api.Test;
 
 class DictionaryTest {
 
-	IDict ternaryTree1;
-	IDict hashMap1;
-	
-	
+	IDict patriciaTree;
+	IDict ternaryTree;
+	IDict hashMap;
 	
 	String dir = "";
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		ternaryTree1 = new TernaryTree();	
-		hashMap1 = new HashMap();
+		patriciaTree = new PatriciaTree();
+		ternaryTree = new TernaryTree();	
+		hashMap = new HashMap();
+	}
+
+	@Test
+	void testPatriciaTree() {
+		// Insertar una letra:
+		patriciaTree.insert("a");
+
+		assertEquals(1, patriciaTree.search("a"));
+		
+		// Test: Insertar varias palabras
+		patriciaTree.insert("ala");
+		
+		assertEquals(1, patriciaTree.search("a"));
+		assertEquals(1, patriciaTree.search("ala"));
+
+		patriciaTree.insert("alabardo");
+
+		assertEquals(1, patriciaTree.search("a"));
+		assertEquals(1, patriciaTree.search("ala"));
+		assertEquals(1, patriciaTree.search("alabardo"));
+		
+		patriciaTree.insert("alabastra");
+		
+		assertEquals(1, patriciaTree.search("a"));
+		assertEquals(1, patriciaTree.search("ala"));
+		assertEquals(1, patriciaTree.search("alabardo"));
+		assertEquals(1, patriciaTree.search("alabastra"));
+		
+		patriciaTree.insert("castro");
+		
+		assertEquals(1, patriciaTree.search("a"));
+		assertEquals(1, patriciaTree.search("ala"));
+		assertEquals(1, patriciaTree.search("alabardo"));
+		assertEquals(1, patriciaTree.search("alabastra"));
+		assertEquals(1, patriciaTree.search("castro"));
+		
+		assertEquals(0 ,patriciaTree.search("cata"));
+		assertEquals(0, patriciaTree.search("cataplasma"));
+		assertEquals(0, patriciaTree.search("catapulta"));
+		assertEquals(0, patriciaTree.search("caternaria"));
+
+		patriciaTree.insert("cataplasma");
+		patriciaTree.insert("catapulta");
+		patriciaTree.insert("caternaria");
+		
+		
+		assertEquals(1, patriciaTree.search("cataplasma"));
+		assertEquals(1, patriciaTree.search("catapulta"));
+		assertEquals(1, patriciaTree.search("caternaria"));
+		assertEquals(0, patriciaTree.search("cata"));
+		
+		assertEquals(0, patriciaTree.search("fundibolo"));
+		
+		patriciaTree.insert("fundibolo");
+		assertEquals(1, patriciaTree.search("fundibolo"));
+		
+		// Test: Insertar el mismo elemento 2 veces
+		patriciaTree.insert("fundibolo");
+		assertEquals(1, patriciaTree.search("fundibolo"));
+		
+		patriciaTree.insert("tamarindo");
+		assertEquals(1, patriciaTree.search("tamarindo"));
+		
+		// Test: Mayusculas - Minusculas
+		patriciaTree.insert("tortuga");
+		
+		assertEquals(1, patriciaTree.search("tortuga"));
+		assertEquals(0, patriciaTree.search("TORTUGA"));
+		assertEquals(0, patriciaTree.search("Tortuga"));
+		assertEquals(0, patriciaTree.search("tortugA"));
+		
+		// Test : espacio, caracteres raros:
+		
+		assertEquals(0, patriciaTree.search("tortuga "));
+		assertEquals(0, patriciaTree.search(" tortuga "));
+		assertEquals(0, patriciaTree.search("tortuga\n"));
+		assertEquals(0, patriciaTree.search("tórtuga"));
+		
+		// Test : Cantidad de apariciones
+		
+		assertEquals(1, patriciaTree.frequency("a"));
+		assertEquals(1, patriciaTree.frequency("ala"));
+		assertEquals(1, patriciaTree.frequency("alabardo"));
+		
+		assertEquals(0, patriciaTree.frequency("cata"));
+		assertEquals(1, patriciaTree.frequency("cataplasma"));
+		assertEquals(1, patriciaTree.frequency("catapulta"));
+		assertEquals(1, patriciaTree.frequency("caternaria"));
+		
+		assertEquals(0, patriciaTree.frequency("abc"));
+
+		
+		assertEquals(2, patriciaTree.frequency("fundibolo"));
+		
+		for (int i = 0; i < 10000 ; i ++) {
+			patriciaTree.insert("superfluo");
+		}
+		
+		assertEquals(10000, patriciaTree.frequency("superfluo"));
 	}
 	
 
 	@Test
 	void testTernaryTree() {
 		// Insertar una letra:
-		ternaryTree1.insert("a");
+		ternaryTree.insert("a");
 		
 
-		assertEquals(1, ternaryTree1.search("a"));
+		assertEquals(1, ternaryTree.search("a"));
 		
 		// Test: Insertar varias palabras
-		ternaryTree1.insert("ala");
+		ternaryTree.insert("ala");
 		
-		assertEquals(1, ternaryTree1.search("a"));
-		assertEquals(1, ternaryTree1.search("ala"));
+		assertEquals(1, ternaryTree.search("a"));
+		assertEquals(1, ternaryTree.search("ala"));
 
-		ternaryTree1.insert("alabardo");
+		ternaryTree.insert("alabardo");
 
-		assertEquals(1, ternaryTree1.search("a"));
-		assertEquals(1, ternaryTree1.search("ala"));
-		assertEquals(1, ternaryTree1.search("alabardo"));
+		assertEquals(1, ternaryTree.search("a"));
+		assertEquals(1, ternaryTree.search("ala"));
+		assertEquals(1, ternaryTree.search("alabardo"));
 		
-		ternaryTree1.insert("alabastra");
+		ternaryTree.insert("alabastra");
 		
-		assertEquals(1, ternaryTree1.search("a"));
-		assertEquals(1, ternaryTree1.search("ala"));
-		assertEquals(1, ternaryTree1.search("alabardo"));
-		assertEquals(1, ternaryTree1.search("alabastra"));
+		assertEquals(1, ternaryTree.search("a"));
+		assertEquals(1, ternaryTree.search("ala"));
+		assertEquals(1, ternaryTree.search("alabardo"));
+		assertEquals(1, ternaryTree.search("alabastra"));
 		
-		ternaryTree1.insert("castro");
+		ternaryTree.insert("castro");
 		
-		assertEquals(1, ternaryTree1.search("a"));
-		assertEquals(1, ternaryTree1.search("ala"));
-		assertEquals(1, ternaryTree1.search("alabardo"));
-		assertEquals(1, ternaryTree1.search("alabastra"));
-		assertEquals(1, ternaryTree1.search("castro"));
+		assertEquals(1, ternaryTree.search("a"));
+		assertEquals(1, ternaryTree.search("ala"));
+		assertEquals(1, ternaryTree.search("alabardo"));
+		assertEquals(1, ternaryTree.search("alabastra"));
+		assertEquals(1, ternaryTree.search("castro"));
 		
-		assertEquals(0 ,ternaryTree1.search("cata"));
-		assertEquals(0, ternaryTree1.search("cataplasma"));
-		assertEquals(0, ternaryTree1.search("catapulta"));
-		assertEquals(0, ternaryTree1.search("caternaria"));
+		assertEquals(0 ,ternaryTree.search("cata"));
+		assertEquals(0, ternaryTree.search("cataplasma"));
+		assertEquals(0, ternaryTree.search("catapulta"));
+		assertEquals(0, ternaryTree.search("caternaria"));
 
-		ternaryTree1.insert("cataplasma");
-		ternaryTree1.insert("catapulta");
-		ternaryTree1.insert("caternaria");
+		ternaryTree.insert("cataplasma");
+		ternaryTree.insert("catapulta");
+		ternaryTree.insert("caternaria");
 		
 		
-		assertEquals(1, ternaryTree1.search("cataplasma"));
-		assertEquals(1, ternaryTree1.search("catapulta"));
-		assertEquals(1, ternaryTree1.search("caternaria"));
-		assertEquals(0, ternaryTree1.search("cata"));
+		assertEquals(1, ternaryTree.search("cataplasma"));
+		assertEquals(1, ternaryTree.search("catapulta"));
+		assertEquals(1, ternaryTree.search("caternaria"));
+		assertEquals(0, ternaryTree.search("cata"));
 		
-		assertEquals(0, ternaryTree1.search("fundibolo"));
+		assertEquals(0, ternaryTree.search("fundibolo"));
 		
-		ternaryTree1.insert("fundibolo");
-		assertEquals(1, ternaryTree1.search("fundibolo"));
+		ternaryTree.insert("fundibolo");
+		assertEquals(1, ternaryTree.search("fundibolo"));
 		
 		// Test: Insertar el mismo elemento 2 veces
-		ternaryTree1.insert("fundibolo");
-		assertEquals(1, ternaryTree1.search("fundibolo"));
+		ternaryTree.insert("fundibolo");
+		assertEquals(1, ternaryTree.search("fundibolo"));
 		
-		ternaryTree1.insert("tamarindo");
-		assertEquals(1, ternaryTree1.search("tamarindo"));
+		ternaryTree.insert("tamarindo");
+		assertEquals(1, ternaryTree.search("tamarindo"));
 		
 		// Test: Mayusculas - Minusculas
-		ternaryTree1.insert("tortuga");
+		ternaryTree.insert("tortuga");
 		
-		assertEquals(1, ternaryTree1.search("tortuga"));
-		assertEquals(0, ternaryTree1.search("TORTUGA"));
-		assertEquals(0, ternaryTree1.search("Tortuga"));
-		assertEquals(0, ternaryTree1.search("tortugA"));
+		assertEquals(1, ternaryTree.search("tortuga"));
+		assertEquals(0, ternaryTree.search("TORTUGA"));
+		assertEquals(0, ternaryTree.search("Tortuga"));
+		assertEquals(0, ternaryTree.search("tortugA"));
 		
 		// Test : espacio, caracteres raros:
 		
-		assertEquals(0, ternaryTree1.search("tortuga "));
-		assertEquals(0, ternaryTree1.search(" tortuga "));
-		assertEquals(0, ternaryTree1.search("tortuga\n"));
-		assertEquals(0, ternaryTree1.search("tórtuga"));
+		assertEquals(0, ternaryTree.search("tortuga "));
+		assertEquals(0, ternaryTree.search(" tortuga "));
+		assertEquals(0, ternaryTree.search("tortuga\n"));
+		assertEquals(0, ternaryTree.search("tórtuga"));
 		
 		// Test : Cantidad de apariciones
 		
-		assertEquals(1, ternaryTree1.frequency("a"));
-		assertEquals(1, ternaryTree1.frequency("ala"));
-		assertEquals(1, ternaryTree1.frequency("alabardo"));
+		assertEquals(1, ternaryTree.frequency("a"));
+		assertEquals(1, ternaryTree.frequency("ala"));
+		assertEquals(1, ternaryTree.frequency("alabardo"));
 		
-		assertEquals(0, ternaryTree1.frequency("cata"));
-		assertEquals(1, ternaryTree1.frequency("cataplasma"));
-		assertEquals(1, ternaryTree1.frequency("catapulta"));
-		assertEquals(1, ternaryTree1.frequency("caternaria"));
+		assertEquals(0, ternaryTree.frequency("cata"));
+		assertEquals(1, ternaryTree.frequency("cataplasma"));
+		assertEquals(1, ternaryTree.frequency("catapulta"));
+		assertEquals(1, ternaryTree.frequency("caternaria"));
 		
-		assertEquals(0, ternaryTree1.frequency("abc"));
+		assertEquals(0, ternaryTree.frequency("abc"));
 
 		
-		assertEquals(2, ternaryTree1.frequency("fundibolo"));
+		assertEquals(2, ternaryTree.frequency("fundibolo"));
 		
 		for (int i = 0; i < 10000 ; i ++) {
-			ternaryTree1.insert("superfluo");
+			ternaryTree.insert("superfluo");
 		}
 		
-		assertEquals(10000, ternaryTree1.frequency("superfluo"));
+		assertEquals(10000, ternaryTree.frequency("superfluo"));
 	}
 	
 	
@@ -151,11 +249,11 @@ class DictionaryTest {
 
 			// Insertamos todas las palabras en el arbol
 			for (String word : splited) {
-				ternaryTree1.insert(word);
+				ternaryTree.insert(word);
 			}
 			// Buscamos todas las palabras insertadas en el arbol
 			for (String word: splited) {
-				assertEquals(1, ternaryTree1.search(word));
+				assertEquals(1, ternaryTree.search(word));
 			}
 		
 		} finally {
@@ -181,101 +279,101 @@ class DictionaryTest {
 	@Test
 	void testHashMap() {
 		// Insertar una letra:
-		hashMap1.insert("a");
+		hashMap.insert("a");
 		
 
-		assertEquals(1, hashMap1.search("a"));
+		assertEquals(1, hashMap.search("a"));
 		
 		// Test: Insertar varias palabras
-		hashMap1.insert("ala");
+		hashMap.insert("ala");
 		
-		assertEquals(1, hashMap1.search("a"));
-		assertEquals(1, hashMap1.search("ala"));
+		assertEquals(1, hashMap.search("a"));
+		assertEquals(1, hashMap.search("ala"));
 
-		ternaryTree1.insert("alabardo");
+		hashMap.insert("alabardo");
 
-		assertEquals(1, hashMap1.search("a"));
-		assertEquals(1, hashMap1.search("ala"));
-		assertEquals(1, hashMap1.search("alabardo"));
+		assertEquals(1, hashMap.search("a"));
+		assertEquals(1, hashMap.search("ala"));
+		assertEquals(1, hashMap.search("alabardo"));
 		
-		ternaryTree1.insert("alabastra");
+		hashMap.insert("alabastra");
 		
-		assertEquals(1, hashMap1.search("a"));
-		assertEquals(1, hashMap1.search("ala"));
-		assertEquals(1, hashMap1.search("alabardo"));
-		assertEquals(1, hashMap1.search("alabastra"));
+		assertEquals(1, hashMap.search("a"));
+		assertEquals(1, hashMap.search("ala"));
+		assertEquals(1, hashMap.search("alabardo"));
+		assertEquals(1, hashMap.search("alabastra"));
 		
-		hashMap1.insert("castro");
+		hashMap.insert("castro");
 		
-		assertEquals(1, hashMap1.search("a"));
-		assertEquals(1, hashMap1.search("ala"));
-		assertEquals(1, hashMap1.search("alabardo"));
-		assertEquals(1, hashMap1.search("alabastra"));
-		assertEquals(1, hashMap1.search("castro"));
+		assertEquals(1, hashMap.search("a"));
+		assertEquals(1, hashMap.search("ala"));
+		assertEquals(1, hashMap.search("alabardo"));
+		assertEquals(1, hashMap.search("alabastra"));
+		assertEquals(1, hashMap.search("castro"));
 		
-		assertEquals(0 ,hashMap1.search("cata"));
-		assertEquals(0, hashMap1.search("cataplasma"));
-		assertEquals(0, hashMap1.search("catapulta"));
-		assertEquals(0, hashMap1.search("caternaria"));
+		assertEquals(0 ,hashMap.search("cata"));
+		assertEquals(0, hashMap.search("cataplasma"));
+		assertEquals(0, hashMap.search("catapulta"));
+		assertEquals(0, hashMap.search("caternaria"));
 
-		hashMap1.insert("cataplasma");
-		hashMap1.insert("catapulta");
-		hashMap1.insert("caternaria");
+		hashMap.insert("cataplasma");
+		hashMap.insert("catapulta");
+		hashMap.insert("caternaria");
 		
 		
-		assertEquals(1, hashMap1.search("cataplasma"));
-		assertEquals(1, hashMap1.search("catapulta"));
-		assertEquals(1, hashMap1.search("caternaria"));
-		assertEquals(0, hashMap1.search("cata"));
+		assertEquals(1, hashMap.search("cataplasma"));
+		assertEquals(1, hashMap.search("catapulta"));
+		assertEquals(1, hashMap.search("caternaria"));
+		assertEquals(0, hashMap.search("cata"));
 		
-		assertEquals(0, hashMap1.search("fundibolo"));
+		assertEquals(0, hashMap.search("fundibolo"));
 		
-		hashMap1.insert("fundibolo");
-		assertEquals(1, hashMap1.search("fundibolo"));
+		hashMap.insert("fundibolo");
+		assertEquals(1, hashMap.search("fundibolo"));
 		
 		// Test: Insertar el mismo elemento 2 veces
-		hashMap1.insert("fundibolo");
-		assertEquals(1, hashMap1.search("fundibolo"));
+		hashMap.insert("fundibolo");
+		assertEquals(1, hashMap.search("fundibolo"));
 		
-		hashMap1.insert("tamarindo");
-		assertEquals(1, hashMap1.search("tamarindo"));
+		hashMap.insert("tamarindo");
+		assertEquals(1, hashMap.search("tamarindo"));
 		
 		// Test: Mayusculas - Minusculas
-		hashMap1.insert("tortuga");
+		hashMap.insert("tortuga");
 		
-		assertEquals(1, hashMap1.search("tortuga"));
-		assertEquals(0, hashMap1.search("TORTUGA"));
-		assertEquals(0, hashMap1.search("Tortuga"));
-		assertEquals(0, hashMap1.search("tortugA"));
+		assertEquals(1, hashMap.search("tortuga"));
+		assertEquals(0, hashMap.search("TORTUGA"));
+		assertEquals(0, hashMap.search("Tortuga"));
+		assertEquals(0, hashMap.search("tortugA"));
 		
 		// Test : espacio, caracteres raros:
 		
-		assertEquals(0, hashMap1.search("tortuga "));
-		assertEquals(0, hashMap1.search(" tortuga "));
-		assertEquals(0, hashMap1.search("tortuga\n"));
-		assertEquals(0, hashMap1.search("tórtuga"));
+		assertEquals(0, hashMap.search("tortuga "));
+		assertEquals(0, hashMap.search(" tortuga "));
+		assertEquals(0, hashMap.search("tortuga\n"));
+		assertEquals(0, hashMap.search("tórtuga"));
 		
 		// Test : Cantidad de apariciones
 		
-		assertEquals(1, hashMap1.frequency("a"));
-		assertEquals(1, hashMap1.frequency("ala"));
-		assertEquals(1, hashMap1.frequency("alabardo"));
+		assertEquals(1, hashMap.frequency("a"));
+		assertEquals(1, hashMap.frequency("ala"));
+		assertEquals(1, hashMap.frequency("alabardo"));
 		
-		assertEquals(0, hashMap1.frequency("cata"));
-		assertEquals(1, hashMap1.frequency("cataplasma"));
-		assertEquals(1, hashMap1.frequency("catapulta"));
-		assertEquals(1, hashMap1.frequency("caternaria"));
+		assertEquals(0, hashMap.frequency("cata"));
+		assertEquals(1, hashMap.frequency("cataplasma"));
+		assertEquals(1, hashMap.frequency("catapulta"));
+		assertEquals(1, hashMap.frequency("caternaria"));
 		
-		assertEquals(0, hashMap1.frequency("abc"));
+		assertEquals(0, hashMap.frequency("abc"));
 
 		
-		assertEquals(2, hashMap1.frequency("fundibolo"));
+		assertEquals(2, hashMap.frequency("fundibolo"));
 		
 		for (int i = 0; i < 10000 ; i ++) {
-			hashMap1.insert("superfluo");
+			hashMap.insert("superfluo");
 		}
 		
-		assertEquals(10000, hashMap1.frequency("superfluo"));
+		assertEquals(10000, hashMap.frequency("superfluo"));
 	}
 	
 	@Test
