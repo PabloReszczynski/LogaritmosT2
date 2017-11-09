@@ -28,6 +28,7 @@ class TernaryTreeTest {
 	void testTernaryTree() {
 		// Insertar una letra:
 		ternaryTree1.insert("a");
+		
 
 		assertEquals(1, ternaryTree1.search("a"));
 		
@@ -36,9 +37,9 @@ class TernaryTreeTest {
 		
 		assertEquals(1, ternaryTree1.search("a"));
 		assertEquals(1, ternaryTree1.search("ala"));
-		
+
 		ternaryTree1.insert("alabardo");
-		
+
 		assertEquals(1, ternaryTree1.search("a"));
 		assertEquals(1, ternaryTree1.search("ala"));
 		assertEquals(1, ternaryTree1.search("alabardo"));

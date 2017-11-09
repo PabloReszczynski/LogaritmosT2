@@ -31,10 +31,10 @@ public class TernaryTree implements IDict {
 			
 			// Caso base: ya no me quedan mas chars que buscar
 			if (str.length() == 1) {
-				this.center = new TernaryTree();
+				//this.center = new TernaryTree();
 				wordCount ++; // Aumentamos el contador
-				
-				return this.center.insert(str.substring(1));
+				return 1;
+				//return this.center.insert(str.substring(1));
 			}
 			
 			// Caso base 2; Quedan chars, creamos un nuevo nodo e insertamos el char:
@@ -47,17 +47,21 @@ public class TernaryTree implements IDict {
 			}
 		}
 
-		// Si estamos buscando el char P[i] (con P = palabra)
+		// Si estamos buscando el char P[i] (con P = palabra) en el arbol y esta:
 
 		// Caso: P[i] = this.value
 		// Buscamos ahora P[i+1] en el nodo del centro:
 		if (this.value == str.charAt(0)){
-			
+
 			if (str.length() == 1) {
 				wordCount ++;
+				return 1;
+			} else if (this.center == null){
+				this.center = new TernaryTree();
+				return this.center.insert(str.substring(1));
+			} else {
+				return this.center.insert(str.substring(1));
 			}
-			
-			return this.center.insert(str.substring(1));
 		}
 		// Caso: P[i] < this.value
 		// Seguimos buscando P[i] en el nodo de la izquierda:
@@ -85,23 +89,22 @@ public class TernaryTree implements IDict {
 
 	@Override
 	public int search(String str) {
-		
-		if (this.value == null) {
-			return 0;
-		}
+
 		
 		// Si estamos buscando el char P[i] (con P = palabra)
 	
 		// Caso 1: P[i] = this.value
 		// Buscamos ahora P[i+1] en el nodo del centro:
 		if (this.value == str.charAt(0)){
+			//System.out.println("this.value = " + this.value + " str = " + str);
 			
-			if (this.center == null) {
-				return 0;
-				
-			} else if (str.length() == 1){
+			if (str.length() == 1){
 				return this.wordCount >= 1 ? 1 : 0;
-				
+			}
+
+			else if (this.center == null) {
+				return 0;
+
 			} else {
 				return this.center.search(str.substring(1));
 			}
@@ -132,22 +135,21 @@ public class TernaryTree implements IDict {
 
 	@Override
 	public int frequency(String str) {
-		if (this.value == null) {
-			return 0;
-		}
-		
+
 		// Si estamos buscando el char P[i] (con P = palabra)
 	
 		// Caso 1: P[i] = this.value
 		// Buscamos ahora P[i+1] en el nodo del centro:
 		if (this.value == str.charAt(0)){
+			//System.out.println("this.value = " + this.value + " str = " + str);
 			
-			if (this.center == null) {
-				return 0;
-				
-			} else if (str.length() == 1){
+			if (str.length() == 1){
 				return this.wordCount;
-				
+			}
+
+			else if (this.center == null) {
+				return 0;
+
 			} else {
 				return this.center.frequency(str.substring(1));
 			}
@@ -173,5 +175,22 @@ public class TernaryTree implements IDict {
 			}
 		}
 		return 0;
+	}
+	
+	public void printTree() {
+		System.out.println("this.value: " + this.value  + " this.count: " + this.wordCount);
+		if (this.left != null) {
+			System.out.println("this.left");
+			this.left.printTree();
+		}
+		if (this.center != null) {
+			System.out.println("this.center");
+			this.center.printTree();
+		}
+		if (this.right != null) {
+			System.out.println("this.right");
+			this.right.printTree();
+		}
+		
 	}
 }
