@@ -5,16 +5,19 @@ public class PatriciaTree implements IDict {
 	private ArrayList<PatriciaTree> children;
     private char[] label;
     PatriciaTree root;
+    int frequency;
 
     public PatriciaTree() {
         children = new ArrayList<PatriciaTree>();
         label = "".toCharArray();
         root= this;
+        frequency=0;
     }
     public PatriciaTree(String label, PatriciaTree root) {
         children = new ArrayList<PatriciaTree>();
         this.label = label.toCharArray();
         this.root=root;
+        frequency=0;
     }
     public void setChildren(ArrayList<PatriciaTree> children) {
     	this.children=children;
@@ -27,9 +30,13 @@ public class PatriciaTree implements IDict {
 	public int insert(String str) {
 		//este nodo es el nodo con el prefijo mas grande en comun con str
 		PatriciaTree nodo =this.mysearch(str.toCharArray(), 0);
-		String prefix =greatestCommonPrefix(new String(nodo.label), str);
-		root.insertar(prefix, str, 0);
-
+		if (new String(nodo.label)== str) {
+			nodo.frequency++;
+		}
+		else {
+			String prefix =greatestCommonPrefix(new String(nodo.label), str);
+			root.insertar(prefix, str, 0);
+		}
 		return 0;
 	}
 	public String greatestCommonPrefix(String a, String b) {
@@ -52,7 +59,12 @@ public class PatriciaTree implements IDict {
 
 	@Override
 	public int frequency(String word) {
-		return 0;
+		PatriciaTree nodo =mysearch(word.toCharArray(), 0);
+		if (new String(nodo.label)==word) {
+			return nodo.frequency;
+		}
+		else 
+			return 0;
 	}
 
 	private void insertar(String prefix, String str, int pos) {
