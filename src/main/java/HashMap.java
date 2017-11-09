@@ -1,4 +1,6 @@
-public class HashMap implements IDict {
+import java.io.Serializable;
+
+public class HashMap implements IDict, Serializable {
 
     private int size, max_size;
     private Entry[] table;

@@ -50,12 +50,9 @@ public class Experiments {
 			
 			time = (System.currentTimeMillis() - time) / 1000;
 			
-			
-			// Experimento : Tamano del objeto creado para Dark Tower
-			if (clss.getName() == "TernaryTree") {
-				saveObject("TernaryTree_" + Double.toString(Math.pow(2, i)), dict);
-			}
-			
+
+			saveObject(clss.getName() + "_" + Double.toString(Math.pow(2, i)), dict);
+					
 			
 			System.out.println("Tiempo de insercion de "+ clss.getName() +
 					" usando DarkTower para " + (int) Math.pow(2,i) + " palabras : " + time);
