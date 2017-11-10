@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class SimilarityFunctions {
 
 
-	public static float calculateSimilarity(String text1, String text2, Class<? extends IDict> dictClass) throws Exception {
+	public static double calculateSimilarity(String text1, String text2, Class<? extends IDict> dictClass) throws Exception {
 		
 		try {
 			String [] wordList1 = readTextFile(text1);
@@ -42,9 +42,9 @@ public class SimilarityFunctions {
 		// Retornamos un arreglo de las palabras
 		return everything.split("\\s+");
 	}
-	
-	
-	public static float similarityFunction(
+
+
+	public static double similarityFunction(
 			String[] text1, 
 			String[] text2, 
 			Class<? extends IDict> dictClass)
@@ -56,7 +56,7 @@ public class SimilarityFunctions {
 		ArrayList<String> concatenatedTextUniqueWords = new ArrayList<String>();
 
 		int numberOfWords = text1.length + text2.length;
-		int numerator = 0;
+		double numerator = 0;
 
 
 		for (String word : text1) {
@@ -79,6 +79,6 @@ public class SimilarityFunctions {
 			numerator += Math.abs( text1Dict.frequency(word) - text2Dict.frequency(word)); 
 			//System.out.println("word: " + word + " frequency: " + numerator);
 		}
-		return 1 - numerator/(float)numberOfWords;
+		return 1 - (numerator / (double) numberOfWords);
 	}
 }

@@ -63,7 +63,13 @@ public class HashMap implements IDict, Serializable {
     private void extendTable() {
         max_size *= 2;
         Entry[] newTable = new Entry[max_size];
-        System.arraycopy(table, 0, newTable, 0, size);
+        for (Entry e : table) {
+            if (e != null) {
+                int newKey = (int) (e.hash & (max_size - 1));
+                e.key = newKey;
+                newTable[newKey] = e;
+            }
+        }
         table = newTable;
     }
 
@@ -92,7 +98,8 @@ public class HashMap implements IDict, Serializable {
         int i = 0;
         while (mapped != null) {
             if (mapped.value.equals(str)) return key;
-            key = ++key % max_size;
+            key = (key + 1) % max_size;
+            mapped = table[key];
             if (++i >= max_size) break;
         }
         return -1;
