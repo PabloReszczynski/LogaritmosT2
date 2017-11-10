@@ -1,12 +1,17 @@
+import java.util.Random;
+
 public class HashMap implements IDict {
 
     private int size, max_size;
     private Entry[] table;
 
+    /*
+        djb2 by Dan Bernstein
+     */
     public static long hashFun(String str) {
-        long hash = 7;
+        long hash = 5381;
         for (char ch : str.toCharArray()) {
-            hash = hash * 31 + ch;
+            hash = ((hash << 5) + hash) + ch;
         }
         return hash;
     }
@@ -15,6 +20,38 @@ public class HashMap implements IDict {
         this.size = 0;
         this.max_size = 8;
         this.table = new Entry[8];
+    }
+
+    private int linearProbing(int key, String str) {
+        Entry mapped = table[key];
+        while (mapped != null) {
+            if (mapped.value.equals(str)){
+                table[key].frequency++;
+                return -1;
+            }
+            key = ++key % max_size;
+            mapped = table[key];
+        }
+        return key;
+    }
+
+    /*
+        Function tomada de la implementacion de diccionarios de python:
+        dictobject.c
+     */
+    private int randomProbing(int key, String str) {
+        Entry mapped = table[key];
+        int perturb = key;
+        while (mapped != null) {
+            if (mapped.value.equals(str)) {
+                table[key].frequency++;
+                return -1;
+            }
+            perturb >>= 5;
+            key = max_size & ((key << 2) + key + perturb + 1);
+            mapped = table[key];
+        }
+        return key;
     }
 
     private void extendTable() {
@@ -28,19 +65,12 @@ public class HashMap implements IDict {
         if (size >= max_size) {
             extendTable();
         }
-        int key;
-        if ((key = search(str)) != -1) {
-            table[key].frequency++;
+        long hash = hashFun(str);
+        int key = (int) (hash & (max_size - 1)); // El operador binario AND es como módulo pero más bacán.
+        if ((key = linearProbing(key, str)) == -1) {
             return key;
         }
-        long hash = hashFun(str);
-        key = (int) (hash & (max_size - 1)); // El operador binario AND es como módulo pero más bacán.
-        Entry mapped = table[key];
-
-        while (mapped != null) {
-            key = ++key % max_size; // Linear Probing
-            mapped = table[key];
-        }
+        //key = randomProbing(key);
         Entry entry = new Entry(hash, key, str);
         table[key] = entry;
         size++;
@@ -52,11 +82,12 @@ public class HashMap implements IDict {
         long hash = hashFun(str);
         int key = (int) (hash & (max_size - 1));
 
-        Entry mapped;
-        for (int i = 0; i < max_size; i++) {
-            mapped = table[key];
-            if (mapped != null && mapped.value.equals(str)) return key;
+        Entry mapped = table[key];
+        int i = 0;
+        while (mapped != null) {
+            if (mapped.value.equals(str)) return key;
             key = ++key % max_size;
+            if (++i >= max_size) break;
         }
         return -1;
     }
