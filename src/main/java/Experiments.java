@@ -11,10 +11,10 @@ public class Experiments {
     
 
 	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
-		
-		executeExperiments(PatriciaTree.class);
+
+		//executeExperiments(PatriciaTree.class);
 		//executeExperiments(TernaryTree.class);
-		//executeExperiments(HashMap.class);
+		executeExperiments(HashMap.class);
 
 	}
 	
