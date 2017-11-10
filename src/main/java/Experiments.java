@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Experiments {
     
@@ -30,70 +31,71 @@ public class Experiments {
 		String [] text2 = readTextFile("TheExpanse.txt");
 		
 		double time;
+		double searchTime;
 		IDict dict;
 		
+		ArrayList<String> randomWordList = new ArrayList<String>();
+		Random rand = new Random();
+		int randomLenght = 0;;
+		
 		// Experimento: Tiempo de construccion para Dark Tower.
-		ArrayList<Double> fillTimes = new ArrayList<Double>();
+		System.out.println("Tiempo de insercion de DarkTower para " + clss.getName() +" :\nPalabras\tTiempoInsercion\tTiempoBusqueda");
 		for (int i = 10; i < 21; i++) {
 			
-			//Creamos /Vaciamos diccionarios
+			// Creamos/Vaciamos diccionarios
 			dict = clss.newInstance();
 			// WarmUp
 			dict.insert("xyzw");
 			
+			// Medimos el tiempo de la insercion:
 			time = System.currentTimeMillis();
-			
 			for (int j = 0; j <= Math.pow(2, i) - 1 && j < text1.length; j++) {
 				String word = text1[j];
 				dict.insert(word);
 			}
-			
 			time = (System.currentTimeMillis() - time) / 1000;
 			
-
-			saveObject(clss.getName() + "_" + Double.toString(Math.pow(2, i)), dict);
-					
 			
-			System.out.println("Tiempo de insercion de "+ clss.getName() +
-					" usando DarkTower para " + (int) Math.pow(2,i) + " palabras : " + time);
-			fillTimes.add(time);
+			searchTime = searchExperiment(dict, text1, i, rand);
+					
+			// Imprimimos los resultados:
+			System.out.println((int) Math.pow(2,i)+ "\t\t" + time + "\t\t" + searchTime );
+
+			// Experimento: Guardar archivos para comprobar tamano.
+			saveObject("DarkTower_" + clss.getName() + "_" + Double.toString(Math.pow(2, i)), dict);
 		}
 		
 		
 		// Experimento: Tiempo de construccion para The Expanse.
+		System.out.println("\nTiempo de insercion de TheExpanse para " + clss.getName() +" :\nPalabras\tTiempoInsercion\tTiempoBusqueda");
 		for (int i = 10; i < 21; i++) {
 			
-			//Creamos /Vaciamos diccionarios
+			// Creamos/Vaciamos diccionarios
 			dict = clss.newInstance();
 			// WarmUp
 			dict.insert("xyzw");
 			
 			time = System.currentTimeMillis();
-			
 			for (int j = 0; j <= Math.pow(2, i) - 1 && j < text2.length; j++) {
 				String word = text2[j];
 				dict.insert(word);
 			}
-			
 			time = (System.currentTimeMillis() - time) / 1000;
 			
 			
-			// Experimento : Tamano del objeto creado para Dark Tower
-			if (clss.getName() == "TernaryTree") {
-				saveObject("TernaryTree_" + Double.toString(Math.pow(2, i)), dict);
-			}
+			searchTime = searchExperiment(dict, text2, i, rand);
 			
+			// Imprimimos los resultados:
+			System.out.println((int) Math.pow(2,i)+ "\t\t" + time + "\t\t" + searchTime );
 			
-			System.out.println("Tiempo de insercion de "+ clss.getName() + 
-					" usando The Expanse para " + (int) Math.pow(2,i) + " palabras : " + time);
-			fillTimes.add(time);
+			// Experimento : Tamano del objeto creado para The Expanse
+			saveObject("TheExpanse_" + clss.getName() + "_" + Double.toString(Math.pow(2, i)), dict);			
 		}
-		
-		
 		
 		// Experimento: Tiempo de calculo de la similaridad.
 		// Solo se mide la busqueda de las palabras y el calculo del indice, no la insercion.
 		ArrayList<Double> similarityTimes = new ArrayList<Double>();
+		System.out.println("Tiempo tomado para calculo de similaridad usando " + clss.getName() + "\nPalabras\tTiempo");
 		for (int i = 10; i < 21; i ++) {
 			
 			time = (testSimilarityTime (
@@ -101,11 +103,39 @@ public class Experiments {
 					Arrays.copyOfRange(text2, 0, (int) Math.pow(2, i)),
 					clss)) / 1000;
 			
-			System.out.println("Tiempo de calculo de similaridad en " + clss.getName() + " para " + (int) Math.pow(2,i) + " palabras: " + time);
+			System.out.println((int) Math.pow(2,i) + "\t\t" + time);
 			
 			similarityTimes.add(time);
 		}
+		
+		
 	}
+	
+	/*
+	 * searchExperiment
+	 * Experimento : elegir n/10 palabras aleatoriamente y buscarlas
+	 */
+	public static double searchExperiment(IDict dict, String[] text, int index, Random rand) {
+		
+	 
+		int randomLenght = (int) (Math.pow(2, index)/10);
+		double searchTime = 0;
+		ArrayList<String> randomWordList = new ArrayList<String>();
+		
+
+		for (int k = 0; k < Math.pow(2, index)/10; k++) {
+			randomWordList.add(text[rand.nextInt(randomLenght)]);
+		}
+
+		searchTime = System.nanoTime() / 1000000000;
+
+		for (String word : randomWordList) {
+			dict.search(word);
+		}
+
+		return System.nanoTime() / 1000000000 - searchTime;
+	}
+	
 	
 	/*
 	 * readTextFile
