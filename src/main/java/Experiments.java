@@ -33,18 +33,15 @@ public class Experiments {
 		double time;
 		double searchTime;
 		IDict dict;
-		
-		ArrayList<String> randomWordList = new ArrayList<String>();
+
 		Random rand = new Random();
-		int randomLenght = 0;;
 		
 		// Experimento: Tiempo de construccion para Dark Tower.
 		System.out.println("Tiempo de insercion de DarkTower para " + clss.getName() +" :\nPalabras\tTiempoInsercion\tTiempoBusqueda");
 		for (int i = 10; i < 21; i++) {
 			
-			// Creamos/Vaciamos diccionarios
+			// Creamos/Vaciamos diccionarios - WarmUp
 			dict = clss.newInstance();
-			// WarmUp
 			dict.insert("xyzw");
 			
 			// Medimos el tiempo de la insercion:
@@ -98,7 +95,7 @@ public class Experiments {
 		System.out.println("Tiempo tomado para calculo de similaridad usando " + clss.getName() + "\nPalabras\tTiempo");
 		for (int i = 10; i < 21; i ++) {
 			
-			time = (testSimilarityTime (
+			time = (similarityExperiment (
 					Arrays.copyOfRange(text1, 0, (int) Math.pow(2, i)),
 					Arrays.copyOfRange(text2, 0, (int) Math.pow(2, i)),
 					clss)) / 1000;
@@ -127,56 +124,22 @@ public class Experiments {
 			randomWordList.add(text[rand.nextInt(randomLenght)]);
 		}
 
-		searchTime = System.nanoTime() / 1000000000;
+		searchTime = System.nanoTime();
 
 		for (String word : randomWordList) {
 			dict.search(word);
 		}
 
-		return System.nanoTime() / 1000000000 - searchTime;
+		return System.nanoTime() - searchTime;
 	}
 	
-	
-	/*
-	 * readTextFile
-	 * Lee el archivo dado en filename, extrae sus palabras y lo retorna como arreglo de strings.
-	 */
-	public static String[] readTextFile (String filename) throws IOException {
-
-		BufferedReader br = new BufferedReader(new FileReader(filename));
-
-		StringBuilder sb = new StringBuilder();
-		String line = br.readLine();
-
-		while (line != null) {		    	
-			sb.append(line);
-			line = br.readLine();
-		}
-		String everything = sb.toString();
-
-		// Reemplazamos los saltos de linea, comas, numeros, tabs, etc.. por espacios:
-		everything = everything.replaceAll("[\\t\\n\\r]+"," ").toLowerCase();
-		everything = everything.replaceAll("[^a-zA-z ]",  "");
-		
-	
-		br.close();	    
-		// Retornamos un arreglo de las palabras
-		return everything.split("\\s+");
-	}
-	
-	public static void saveObject(String filename, Object o) throws IOException {
-		FileOutputStream fos = new FileOutputStream("results/" + filename + ".ser");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(o);
-        oos.close();
-	}
 	
 	/*
 	 * testSimilarityTime
 	 * Retorna el tiempo que se demora en calcular la similaridad entre dos textos,
 	 * usando el diccionario especificado en el parametro.
 	 */
-	public static double testSimilarityTime(
+	public static double similarityExperiment(
 			String[] text1, 
 			String[] text2, 
 			Class<? extends IDict> dictClass)
@@ -212,7 +175,6 @@ public class Experiments {
 			text2Dict.insert(word);
 		}
 		
-
 		// Comenzamos a contar el tiempo:
 		deltaT = System.currentTimeMillis();
 
@@ -224,6 +186,42 @@ public class Experiments {
 		similarity = 1 - numerator/(float)numberOfWords;
 		
 		return System.currentTimeMillis() - deltaT;
+	}
+	
+	// ------------------ Funciones Utilitarias -------------------
+	
+	/*
+	 * readTextFile
+	 * Lee el archivo dado en filename, extrae sus palabras y lo retorna como arreglo de strings.
+	 */
+	public static String[] readTextFile (String filename) throws IOException {
+
+		BufferedReader br = new BufferedReader(new FileReader(filename));
+
+		StringBuilder sb = new StringBuilder();
+		String line = br.readLine();
+
+		while (line != null) {		    	
+			sb.append(line);
+			line = br.readLine();
+		}
+		String everything = sb.toString();
+
+		// Reemplazamos los saltos de linea, comas, numeros, tabs, etc.. por espacios:
+		everything = everything.replaceAll("[\\t\\n\\r]+"," ").toLowerCase();
+		everything = everything.replaceAll("[^a-zA-z ]",  "");
+		
+	
+		br.close();	    
+		// Retornamos un arreglo de las palabras
+		return everything.split("\\s+");
+	}
+	
+	public static void saveObject(String filename, Object o) throws IOException {
+		FileOutputStream fos = new FileOutputStream("results/" + filename + ".ser");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(o);
+        oos.close();
 	}
 
 }

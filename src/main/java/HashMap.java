@@ -1,8 +1,14 @@
+import java.io.Serializable;
 import java.util.Random;
 
-public class HashMap implements IDict {
+public class HashMap implements IDict, Serializable {
 
-    private int size, max_size;
+    /**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 1L;
+	private int size, max_size;
     private Entry[] table;
 
     /*
@@ -100,8 +106,14 @@ public class HashMap implements IDict {
     }
 }
 
-class Entry {
-    public long hash;
+class Entry implements Serializable{
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	public long hash;
     public int key;
     public String value;
     public int frequency;
