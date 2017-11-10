@@ -378,6 +378,7 @@ class DictionaryTest {
 		
 		for (int i = 0; i < 10000 ; i ++) {
 			hashMap.insert("superfluo");
+			hashMap.insert("cototo");
 		}
 		
 		assertEquals(10000, hashMap.frequency("superfluo"));

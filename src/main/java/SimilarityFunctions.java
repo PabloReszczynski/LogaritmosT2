@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 
 public class SimilarityFunctions {
 
@@ -53,32 +53,25 @@ public class SimilarityFunctions {
 		IDict text1Dict = dictClass.newInstance();
 		IDict text2Dict = dictClass.newInstance();
 
-		ArrayList<String> concatenatedTextUniqueWords = new ArrayList<String>();
+		Set<String> wordSet = new HashSet<String>(Arrays.asList(text1));
+		wordSet.addAll(Arrays.asList(text2));
 
-		int numberOfWords = text1.length + text2.length;
+		double numberOfWords = text1.length + text2.length;
 		double numerator = 0;
 
 
 		for (String word : text1) {
-			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
-				concatenatedTextUniqueWords.add(word);
-			}
 			text1Dict.insert(word);
 		}
 
 		for (String word : text2) {
-			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
-				concatenatedTextUniqueWords.add(word);
-			}
 			text2Dict.insert(word);
 		}
 
 		// Calculo Numerador Similaridad
-		for (String word : concatenatedTextUniqueWords) {
-
-			numerator += Math.abs( text1Dict.frequency(word) - text2Dict.frequency(word)); 
-			//System.out.println("word: " + word + " frequency: " + numerator);
+		for (String word : wordSet) {
+			numerator += Math.abs(text1Dict.frequency(word) - text2Dict.frequency(word));
 		}
-		return 1 - (numerator / (double) numberOfWords);
+		return 1 - (numerator / numberOfWords);
 	}
 }
