@@ -274,8 +274,8 @@ class DictionaryTest {
 		// Test con diccionario TernaryTree
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice.txt", "alice.txt", TernaryTree.class));
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock.txt", "sherlock.txt", TernaryTree.class));
-		assertEquals(0.02826535701751709, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", TernaryTree.class));
-		assertEquals(0.02826535701751709, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", TernaryTree.class));
+		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", TernaryTree.class));
+		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", TernaryTree.class));
 
 	}
 	

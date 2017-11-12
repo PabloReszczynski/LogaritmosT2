@@ -90,6 +90,7 @@ public class TernaryTree implements IDict, java.io.Serializable {
 	@Override
 	public int search(String str) {
 		
+		// Caso Base.
 		if (this.value == null || str.length() == 0) {
 			return 0;
 		}
