@@ -230,59 +230,6 @@ class DictionaryTest {
 	
 	
 	@Test
-	public void readFileTernaryTreeTest() throws IOException {
-		
-		// Leemos las palabras del archivo
-		String [] splited = null;
-		BufferedReader br = new BufferedReader(new FileReader("alice.txt"));
-		try {
-		    StringBuilder sb = new StringBuilder();
-		    String line = br.readLine();
-
-		    while (line != null) {		    	
-		        sb.append(line);
-		        sb.append(System.lineSeparator());
-		        line = br.readLine();
-		    }
-		    String everything = sb.toString();
-		    
-		    // Reemplazamos los saltos de linea, tabs, etc.. por espacios:
-		    everything.replaceAll("[\\t\\n\\r]+"," ");
-		    
-		    // Separamos las palabras por espacios:
-		    splited = everything.split("\\s+");
-		    
-
-			// Insertamos todas las palabras en el arbol
-			for (String word : splited) {
-				ternaryTree.insert(word);
-			}
-			// Buscamos todas las palabras insertadas en el arbol
-			for (String word: splited) {
-				assertEquals(1, ternaryTree.search(word));
-			}
-		
-		} finally {
-		    br.close();
-		}
-	}
-	
-	
-	@Test
-	public void testTernaryTreeSimilarity() throws Exception {
-		
-		// Test con diccionario TernaryTree
-		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice.txt", "alice.txt", TernaryTree.class));
-		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock.txt", "sherlock.txt", TernaryTree.class));
-		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", TernaryTree.class));
-		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", TernaryTree.class));
-
-	}
-	
-	
-	// --------------------------------------- HASH MAP TEST ---------------------------------------
-
-	@Test
 	void testHashMap() {
 		// Insertar una letra:
 		hashMap.insert("a");
@@ -384,12 +331,73 @@ class DictionaryTest {
 		assertEquals(10000, hashMap.frequency("superfluo"));
 	}
 	
+	
 	@Test
-	public void testHashSimilarity() throws Exception {
+	void readFileTest() throws IOException {
+		// Test de esfuerzo
+		BufferedReader br = new BufferedReader(new FileReader("alice.txt"));
+
+		StringBuilder sb = new StringBuilder();
+		String line = br.readLine();
+
+		while (line != null) {		    	
+			sb.append(line);
+			line = br.readLine();
+		}
+		String everything = sb.toString();
+
+		// Reemplazamos los saltos de linea, comas, numeros, tabs, etc.. por espacios:
+		everything = everything.replaceAll("[\\t\\n\\r]+"," ").toLowerCase();
+		everything = everything.replaceAll("[^a-zA-z ]",  "");
+		
+		String[] text = everything.split("\\s+");
+		br.close();	   
+		
+		for (String word : text) {
+			patriciaTree.insert(word);
+			ternaryTree.insert(word);
+			hashMap.insert(word);
+		}
+		
+		
+		for (String word : text) {
+			assertTrue(patriciaTree.search(word) > 0);
+			assertTrue(ternaryTree.search(word) > 0);
+			assertTrue(hashMap.search(word) > 0);
+		}
+	}
+	
+	
+	@Test
+	void testPatriciaTreeSimilarity() throws Exception {
+		
+		// Test con diccionario TernaryTree
+		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice.txt", "alice.txt", PatriciaTree.class));
+		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock.txt", "sherlock.txt", PatriciaTree.class));
+		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", PatriciaTree.class));
+		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", PatriciaTree.class));
+
+	}
+	
+	
+	@Test
+	void testTernaryTreeSimilarity() throws Exception {
+		
+		// Test con diccionario TernaryTree
+		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice.txt", "alice.txt", TernaryTree.class));
+		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock.txt", "sherlock.txt", TernaryTree.class));
+		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", TernaryTree.class));
+		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", TernaryTree.class));
+
+	}
+
+	
+	@Test
+	void testHashSimilarity() throws Exception {
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice.txt", "alice.txt", HashMap.class));
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock.txt", "sherlock.txt", HashMap.class));
-		assertEquals(0.02826535701751709, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", HashMap.class));
-		assertEquals(0.02826535701751709, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", HashMap.class));
+		assertEquals(0.20374389744417643, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", HashMap.class));
+		assertEquals(0.20374389744417643, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", HashMap.class));
 	}	
 	
 }

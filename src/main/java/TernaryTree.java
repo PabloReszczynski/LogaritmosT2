@@ -1,6 +1,10 @@
 
 public class TernaryTree implements IDict, java.io.Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Character value;
 	private TernaryTree left;
 	private TernaryTree right;
