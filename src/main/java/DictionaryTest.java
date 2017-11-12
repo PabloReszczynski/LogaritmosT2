@@ -334,7 +334,8 @@ class DictionaryTest {
 	
 	@Test
 	void readFileTest() throws IOException {
-		// Test de esfuerzo
+		// Test de esfuerzo: lee alice, inserta todas las palabras del texto en los 3 diccionarios
+		// y luego las busca una por una.
 		BufferedReader br = new BufferedReader(new FileReader("alice.txt"));
 
 		StringBuilder sb = new StringBuilder();
@@ -374,8 +375,8 @@ class DictionaryTest {
 		// Test con diccionario TernaryTree
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice.txt", "alice.txt", PatriciaTree.class));
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock.txt", "sherlock.txt", PatriciaTree.class));
-		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", PatriciaTree.class));
-		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", PatriciaTree.class));
+		assertEquals(0.028487086296081543, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", PatriciaTree.class));
+		assertEquals(0.028487086296081543, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", PatriciaTree.class));
 
 	}
 	
@@ -386,8 +387,8 @@ class DictionaryTest {
 		// Test con diccionario TernaryTree
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("alice.txt", "alice.txt", TernaryTree.class));
 		assertEquals(1, SimilarityFunctions.calculateSimilarity("sherlock.txt", "sherlock.txt", TernaryTree.class));
-		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", TernaryTree.class));
-		assertEquals(0.028265334493304706, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", TernaryTree.class));
+		assertEquals(0.028488636016845703, SimilarityFunctions.calculateSimilarity("alice.txt", "sherlock.txt", TernaryTree.class));
+		assertEquals(0.028488636016845703, SimilarityFunctions.calculateSimilarity("sherlock.txt", "alice.txt", TernaryTree.class));
 
 	}
 

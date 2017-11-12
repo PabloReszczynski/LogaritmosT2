@@ -35,15 +35,20 @@ public class SimilarityFunctions {
 
 		// Reemplazamos los saltos de linea, comas, numeros, tabs, etc.. por espacios:
 		everything = everything.replaceAll("[\\t\\n\\r]+"," ").toLowerCase();
-		everything = everything.replaceAll("^[0-9,;]+$"," ");
+		everything = everything.replaceAll("[^a-zA-z ]",  "");
 		
-		
+	
 		br.close();	    
 		// Retornamos un arreglo de las palabras
 		return everything.split("\\s+");
 	}
-
-
+	
+	
+	/*
+	 * testSimilarityTime
+	 * Retorna el tiempo que se demora en calcular la similaridad entre dos textos,
+	 * usando el diccionario especificado en el parametro.
+	 */
 	public static double similarityFunction(
 			String[] text1, 
 			String[] text2, 
@@ -53,25 +58,35 @@ public class SimilarityFunctions {
 		IDict text1Dict = dictClass.newInstance();
 		IDict text2Dict = dictClass.newInstance();
 
-		Set<String> wordSet = new HashSet<String>(Arrays.asList(text1));
-		wordSet.addAll(Arrays.asList(text2));
+		ArrayList<String> concatenatedTextUniqueWords = new ArrayList<String>();
+		
+		int numberOfWords = text1.length + text2.length;
+		int numerator = 0;
 
-		double numberOfWords = text1.length + text2.length;
-		double numerator = 0;
+		
 
-
+		// Agregamos palabras del texto 1 al diccionario 1
 		for (String word : text1) {
+			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
+				concatenatedTextUniqueWords.add(word);
+			}
 			text1Dict.insert(word);
 		}
 
+		// Agregamos palabras del texto 2 al diccionario 2
 		for (String word : text2) {
+			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
+				concatenatedTextUniqueWords.add(word);
+			}
 			text2Dict.insert(word);
 		}
 
+
 		// Calculo Numerador Similaridad
-		for (String word : wordSet) {
-			numerator += Math.abs(text1Dict.frequency(word) - text2Dict.frequency(word));
+		for (String word : concatenatedTextUniqueWords) {
+			numerator += Math.abs( text1Dict.frequency(word) - text2Dict.frequency(word)); 
 		}
-		return 1 - (numerator / numberOfWords);
+		
+		return 1 - numerator/(float)numberOfWords;
 	}
 }
