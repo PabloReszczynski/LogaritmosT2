@@ -58,32 +58,25 @@ public class SimilarityFunctions {
 		IDict text1Dict = dictClass.newInstance();
 		IDict text2Dict = dictClass.newInstance();
 
-		ArrayList<String> concatenatedTextUniqueWords = new ArrayList<String>();
+		Set<String> wordSet = new HashSet<String>(Arrays.asList(text1));
+		wordSet.addAll(Arrays.asList(text2));
 		
 		int numberOfWords = text1.length + text2.length;
 		int numerator = 0;
 
-		
-
 		// Agregamos palabras del texto 1 al diccionario 1
 		for (String word : text1) {
-			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
-				concatenatedTextUniqueWords.add(word);
-			}
 			text1Dict.insert(word);
 		}
 
 		// Agregamos palabras del texto 2 al diccionario 2
 		for (String word : text2) {
-			if (text1Dict.search(word) <= 0 && text2Dict.search(word) <= 0) {
-				concatenatedTextUniqueWords.add(word);
-			}
 			text2Dict.insert(word);
 		}
 
 
 		// Calculo Numerador Similaridad
-		for (String word : concatenatedTextUniqueWords) {
+		for (String word : wordSet) {
 			numerator += Math.abs( text1Dict.frequency(word) - text2Dict.frequency(word)); 
 		}
 		

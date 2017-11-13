@@ -30,12 +30,13 @@ public class HashMap implements IDict, Serializable {
 
     private int linearProbing(int key, String str) {
         Entry mapped = table[key];
+        if (mapped == null) return key;
         while (mapped != null) {
             if (mapped.value.equals(str)){
                 table[key].frequency++;
                 return -1;
             }
-            key = ++key % max_size;
+            key = (key + 1) % max_size;
             mapped = table[key];
         }
         return key;
@@ -67,6 +68,11 @@ public class HashMap implements IDict, Serializable {
             if (e != null) {
                 int newKey = (int) (e.hash & (max_size - 1));
                 e.key = newKey;
+                if (newTable[newKey] != null) {
+                    while (newTable[newKey] != null) {
+                        newKey = (newKey + 1) % max_size;
+                    }
+                }
                 newTable[newKey] = e;
             }
         }
@@ -82,7 +88,6 @@ public class HashMap implements IDict, Serializable {
         if ((key = linearProbing(key, str)) == -1) {
             return key;
         }
-        //key = randomProbing(key);
         Entry entry = new Entry(hash, key, str);
         table[key] = entry;
         size++;
